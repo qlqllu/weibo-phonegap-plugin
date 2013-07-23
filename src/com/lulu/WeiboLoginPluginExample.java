@@ -19,6 +19,7 @@
 
 package com.lulu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
@@ -32,5 +33,13 @@ public class WeiboLoginPluginExample extends DroidGap
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
     }
+
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, arg2);
+	}
+    
+    
 }
 
