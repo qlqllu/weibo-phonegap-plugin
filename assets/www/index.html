@@ -11,7 +11,15 @@
         <script src="js/weibo.js"></script>
         <script>
         	function doLogin(){
-        		weiboLogin("937853576","http://www.my84.cn");
+        		weiboLogin({
+        			appKey:"",
+					appSecret: '',
+					redirectUrl: ""
+				}, function(data){
+					alert(data);
+				}, function(err){
+					alert(err);
+				});
         	}
         	
         </script>

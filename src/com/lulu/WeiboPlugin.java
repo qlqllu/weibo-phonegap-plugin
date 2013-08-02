@@ -20,9 +20,7 @@ public class WeiboPlugin extends CordovaPlugin {
 	Weibo weibo;
 	private String appKey;
     private String redirectUrl;
-    private String scope = "email,direct_messages_read,direct_messages_write," +
-			"friendships_groups_read,friendships_groups_write,statuses_to_me_read," +
-			"follow_app_official_microblog";
+    private String scope;
     private SsoHandler mSsoHandler;
     
 	@Override
@@ -31,6 +29,7 @@ public class WeiboPlugin extends CordovaPlugin {
 		cordova.setActivityResultCallback(this);
 		appKey = args.getString(0);
 		redirectUrl = args.getString(1);
+		scope = args.getString(2);
 		weibo = Weibo.getInstance(appKey, redirectUrl, scope);
 		if("login".equals(action)){
 			doLogin(callbackContext);
