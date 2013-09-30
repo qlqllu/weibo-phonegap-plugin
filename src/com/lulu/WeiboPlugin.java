@@ -53,52 +53,57 @@ public class WeiboPlugin extends CordovaPlugin {
         }
 	}
 	
+	class AuthDialogListener implements WeiboAuthListener {
+	    private CallbackContext callbackContext;
+	    
+		public AuthDialogListener(CallbackContext callbackContext){
+			this.callbackContext = callbackContext;
+		}
+	    @Override
+	    public void onComplete(Bundle values) {
+	        String token = values.getString("access_token");
+            String expires_in = values.getString("expires_in");
+            
+	        JSONObject json = new JSONObject();
+	    	try {
+				json.put("token", token);
+				json.put("expires_in", expires_in);
+				callbackContext.success(json);        
+			} catch (JSONException e) {
+				e.printStackTrace();
+				callbackContext.error(getErrorObject(e.getMessage()));
+			}
+	    }
 
-}
+	    @Override
+	    public void onError(WeiboDialogError e) {
+	    	callbackContext.error(getErrorObject(e.getMessage()));
+	    }
 
-class AuthDialogListener implements WeiboAuthListener {
-    private CallbackContext callbackContext;
-    
-	public AuthDialogListener(CallbackContext callbackContext){
-		this.callbackContext = callbackContext;
+	    @Override
+	    public void onCancel() {
+	    }
+
+	    @Override
+	    public void onWeiboException(WeiboException e) {
+	    	callbackContext.error(getErrorObject(e.getMessage()));
+	    }
+	    
+	    private JSONObject getErrorObject(String message){
+	    	JSONObject json = new JSONObject();
+	    	try {
+				json.put("error", message);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	    	return json;
+	    }
+
 	}
-    @Override
-    public void onComplete(Bundle values) {
-        String code = values.getString("code");
-        JSONObject json = new JSONObject();
-    	try {
-			json.put("code", code);
-			callbackContext.success(json);        
-		} catch (JSONException e) {
-			e.printStackTrace();
-			callbackContext.error(getErrorObject(e.getMessage()));
-		}
-    }
-
-    @Override
-    public void onError(WeiboDialogError e) {
-    	callbackContext.error(getErrorObject(e.getMessage()));
-    }
-
-    @Override
-    public void onCancel() {
-    }
-
-    @Override
-    public void onWeiboException(WeiboException e) {
-    	callbackContext.error(getErrorObject(e.getMessage()));
-    }
-    
-    private JSONObject getErrorObject(String message){
-    	JSONObject json = new JSONObject();
-    	try {
-			json.put("error", message);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-    	return json;
-    }
+	
 
 }
+
+
 
 

@@ -5,17 +5,7 @@ window.weiboLogin = function(info, cb, errbk){
 		"follow_app_official_microblog"
 	}
 	cordova.exec(function(data){
-		$.post('https://api.weibo.com/oauth2/access_token', {
-			client_id: info.appKey,
-			client_secret: info.appSecret,
-			grant_type: 'authorization_code',
-			code: data.code,
-			redirect_uri: info.redirectUrl
-		}, function(ret){
-			if(cb){
-				cb(ret)
-			}
-		});
+		cb(data);
 	}, function(err) {
     	if(errbk){
     		errbk(err);
